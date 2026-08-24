@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tasks</string>
+    <string name="empty_list">Geen open taken</string>
+    <string name="disconnected">Telefoon niet verbonden</string>
+    <string name="completing">Voltooid: %1$s</string>
+    <string name="phone_unreachable">Telefoon onbereikbaar — kon \'%1$s\' niet voltooien</string>
+</resources>

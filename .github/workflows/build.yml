@@ -1,0 +1,37 @@
+name: Build APKs
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Generate Gradle wrapper
+        run: gradle wrapper --gradle-version 8.7 || true
+
+      - name: Build wear + phone APKs
+        run: |
+          if [ -f gradlew ]; then GRADLE=./gradlew; else GRADLE=gradle; fi
+          $GRADLE --no-daemon :wear:assembleDebug :phone:assembleDebug
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: apks
+          path: |
+            wear/build/outputs/apk/debug/*.apk
+            phone/build/outputs/apk/debug/*.apk
