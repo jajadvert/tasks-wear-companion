@@ -43,5 +43,5 @@ dependencies {
     implementation(libs.play.services.wearable)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
-    compileOnly(libs.guava) // ListenableFuture.await comes from guava's concurrent-futures
+    implementation(libs.kotlinx.coroutines.guava) // ListenableFuture.await
 }
