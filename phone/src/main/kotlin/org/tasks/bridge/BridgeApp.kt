@@ -3,30 +3,18 @@ package org.tasks.bridge
 import android.app.Application
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.guava.await
-import kotlinx.coroutines.launch
 
 /**
  * Registers the phone capability (`org.tasks.phone.bridge`) on startup so the
- * wear side can discover this device via CapabilityClient.
+ * wear side can discover this device via CapabilityClient. Fire-and-forget:
+ * failures are ignored (the bridge retries on next app start).
  */
 class BridgeApp : Application() {
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
     override fun onCreate() {
         super.onCreate()
-        scope.launch {
-            try {
-                Wearable.getCapabilityClient(this@BridgeApp)
-                    .addLocalCapability(BridgeApp.CAPABILITY).await()
-            } catch (_: Exception) {
-                // Play services unavailable; the bridge will retry next launch.
-            }
-        }
+        Wearable.getCapabilityClient(this)
+            .addLocalCapability(CAPABILITY)
     }
 
     companion object {
