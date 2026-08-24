@@ -39,8 +39,8 @@ class PhoneBridgeService : WearableListenerService() {
     }
 
     /** Push the current open-task list to all connected wear nodes. */
-    fun pushSnapshot() {
-        val tasks = bridge.openTasks().map { Task(it.id, it.title, it.due) }
+    suspend fun pushSnapshot() {
+        val tasks = bridge.openTasks()
         val payload = Protocol.encodeTasks(tasks)
         try {
             val nodes = com.google.android.gms.wearable.Wearable
@@ -60,6 +60,4 @@ class PhoneBridgeService : WearableListenerService() {
         super.onDestroy()
         scope.cancel()
     }
-
-    data class Task(val id: Long, val title: String, val due: Long?)
 }
