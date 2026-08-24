@@ -69,13 +69,13 @@ class DataLayerSender(context: Context) : DataClient.OnDataChangedListener, Mess
     }
 
     /** Ask the phone to push a fresh snapshot. */
-    suspend fun requestSnapshot(): Boolean = send(PATH_REQUEST, null)
+    suspend fun requestSnapshot(): Boolean = send(Protocol.PATH_REQUEST, null)
 
     /** Mark a task complete on the phone via the Astrid ContentResolver. */
-    suspend fun complete(id: Long): Boolean = send(PATH_COMPLETE, Protocol.encodeId(id))
+    suspend fun complete(id: Long): Boolean = send(Protocol.PATH_COMPLETE, Protocol.encodeId(id))
 
     /** Undo completion on the phone. */
-    suspend fun uncomplete(id: Long): Boolean = send(PATH_UNCOMPLETE, Protocol.encodeId(id))
+    suspend fun uncomplete(id: Long): Boolean = send(Protocol.PATH_UNCOMPLETE, Protocol.encodeId(id))
 
     private suspend fun send(path: String, payload: ByteArray?): Boolean {
         val node = connectedPhoneNode() ?: return false

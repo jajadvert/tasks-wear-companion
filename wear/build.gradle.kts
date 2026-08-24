@@ -38,9 +38,10 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.wear) // WearableRecyclerView, WearableLinearLayoutManager
     implementation(libs.wearable)
     implementation(libs.play.services.wearable)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
-    implementation(libs.guava) // ListenableFuture bridging for DataClient
+    compileOnly(libs.guava) // ListenableFuture.await comes from guava's concurrent-futures
 }
